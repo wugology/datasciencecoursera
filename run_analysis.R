@@ -101,5 +101,5 @@ for(subject in 1:30){
 head(TidyData)
 TidyData[1,]
 
-#write.table(TidyData,"tidydata.txt",row.name=FALSE)
+write.table(TidyData,"tidydata.txt",row.name=FALSE)
 #?write.table
