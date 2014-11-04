@@ -1,9 +1,9 @@
-setwd("~/Downloads/UCI HAR Dataset/test")
+setwd("~/UCI HAR Dataset/test")
 SubjectTest <- read.table("subject_test.txt")
 Xtest <- read.table("X_test.txt")
 Ytest <- read.table("y_test.txt")
 
-setwd("~/Downloads/UCI HAR Dataset/test/Inertial Signals")
+setwd("~/UCI HAR Dataset/test/Inertial Signals")
 BodyAccXtest <- read.table("body_acc_x_test.txt")
 BodyAccYtest <- read.table("body_acc_y_test.txt")
 BodyAccZtest <- read.table("body_acc_z_test.txt")
@@ -21,12 +21,12 @@ summary(testData)
 str(testData)
 
 
-setwd("~/Downloads/UCI HAR Dataset/train")
+setwd("~/UCI HAR Dataset/train")
 SubjectTrain <- read.table("subject_train.txt")
 Xtrain <- read.table("X_train.txt")
 Ytrain <- read.table("y_train.txt")
 
-setwd("~/Downloads/UCI HAR Dataset/train/Inertial Signals")
+setwd("~/UCI HAR Dataset/train/Inertial Signals")
 BodyAccXtrain <- read.table("body_acc_x_train.txt")
 BodyAccYtrain <- read.table("body_acc_y_train.txt")
 BodyAccZtrain <- read.table("body_acc_z_train.txt")
@@ -100,3 +100,6 @@ for(subject in 1:30){
 
 head(TidyData)
 TidyData[1,]
+
+#write.table(TidyData,"tidydata.txt",row.name=FALSE)
+#?write.table
