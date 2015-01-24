@@ -1,0 +1,38 @@
+---
+title: 'Predicting Manner of Exercise'
+author: "Onna Nelson"
+date: "January 23, 2015"
+output: html_document
+---
+The goal of this experiment is to predict the manner in which participants preformed each exercise based on other variables in the dataset.
+
+##Loading and exploring the data
+In order to answer this question, we must first load the dataset and explore it. The code below sets the working directory and loads the training data.
+
+```{r}
+setwd("~/Desktop/coursera")
+training <- read.csv("pml-training.csv")
+testing <- read.csv("pml-testing.csv")
+```
+
+Using `summary(data)` we can explore the data a little bit. There are 160 variables measured, including the user names of the 6 participants in the study. The variables include various measurements of belt, arm, dumbbell, and forearm. The variable we want to predict is "classe," which is either A, B, C, D, or E. Class A represents a correctly preformed exercise. Classes B through E represent various kinds of mistakes. 
+
+## Fitting a model
+There are a lot of factors to consider, and each are probably strongly correlated with each other. For example, all the "forearm" related factors likely covariate. Therefore, we need a machine learning algorithm that can handle a large number of fairly weak factor variables. For this reason, I tried boosting first.
+
+```{r}
+library(ISLR); library(ggplot2); library(caret);
+#model <- train(classe ~ ., method="gbm", 
+#               data=training, verbose=TRUE)
+#print(model)
+```
+
+I'm not sure I used the right kind of model. This took over two hours to run and I do not know how to interpet the results or use them. I also forgot to save the R code as a knitr chunk, so I'm commenting it out so it will actually run in the knitHTML. The next model I tried was random forests:
+
+```{r}
+library(randomForest);
+#model2 <- train(classe ~ ., method="rf", 
+#               data=training, verbose=TRUE)
+#print(model2)
+```
+
