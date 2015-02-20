@@ -1,5 +1,5 @@
 ---
-subtitle: "Using Machine Learning to Predict Activity Types from Biometric Data"
+title: "Using Machine Learning to Predict Activity Types from Biometric Data"
 author: "Onna Nelson (wugology)"
 date: "February 20, 2015"
 output: html_document
@@ -57,7 +57,7 @@ testing <- train3[-subTrain,]
 
 We'll create a random forest model:
 ```{r}
-#rf_model <- randomForest(classe~.,data=training, ntree=250, importance=TRUE)
+rf_model <- randomForest(classe~.,data=training, ntree=250, importance=TRUE)
 ```
 
 ###Predicting the data

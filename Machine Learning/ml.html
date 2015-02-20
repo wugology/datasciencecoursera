@@ -59,12 +59,12 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
 <p>This project uses <a href="http://groupware.les.inf.puc-rio.br/har">Human Activity Recognition</a> data. This data measures various aspects of belt, forearm, arm, and dumbell and includes five classes of activity: sitting-down, standing-up, standing, walking, and sitting. Measurements of belt, forearm, arm, and dumbell will be used to predict the class of activity.</p>
 </div>
-<div id="loading-and-processing-the-data" class="section level2">
-<h2>Loading and Processing the Data</h2>
+<div id="loading-and-processing-the-data" class="section level3">
+<h3>Loading and Processing the Data</h3>
 <p>First, relevant R packages must be loaded:</p>
 <pre class="r"><code>library(randomForest); library(caret); library(e1071)</code></pre>
 <pre><code>## randomForest 4.6-10
@@ -86,31 +86,42 @@ test3 &lt;- test2[,-c(1:7)]</code></pre>
    test3[,i] &lt;- as.numeric(test3[,i])   
 }</code></pre>
 </div>
-<div id="modeling-the-data" class="section level1">
-<h1>Modeling the data</h1>
-<p>set.seed(321) subTrain &lt;- createDataPartition(y = train3$classe, p = .8, list = FALSE)</p>
-<p>training &lt;- train3[subTrain,] testing &lt;- train3[-subTrain,]</p>
+<div id="modeling-the-data" class="section level3">
+<h3>Modeling the data</h3>
+<p>Next, we’ll set the seed (for reproducible randomness) and randomly divide the training set into two subsets. The first subset will be for training the model, while the second set will be to check for accuracy.</p>
+<pre class="r"><code>set.seed(321)
+subTrain &lt;- createDataPartition(y = train3$classe,
+                               p = .8,
+                               list = FALSE)
+
+training &lt;- train3[subTrain,]
+testing &lt;- train3[-subTrain,]</code></pre>
+<p>We’ll create a random forest model:</p>
+<pre class="r"><code>rf_model &lt;- randomForest(classe~.,data=training, ntree=250, importance=TRUE)</code></pre>
 </div>
-<div id="model" class="section level1">
-<h1>model</h1>
-</div>
-<div id="rf_model---randomforestclasse.datatraining-ntree250-importancetrue" class="section level1">
-<h1>rf_model &lt;- randomForest(classe~.,data=training, ntree=250, importance=TRUE)</h1>
-</div>
-<div id="predtrain---predictrf_modeltesting-predacc---predtraintestingclasse-tablepredtraintestingclasse" class="section level1">
-<h1>predTrain &lt;- predict(rf_model,testing); predAcc &lt;- predTrain==testing<span class="math">\(classe #table(predTrain,testing\)</span>classe)</h1>
-</div>
-<div id="prop.tabletablepredacc" class="section level1">
-<h1>prop.table(table(predAcc))</h1>
-</div>
-<div id="accurate" class="section level1">
-<h1>99.5% accurate!</h1>
-</div>
-<div id="predtest---predictrf_modelnewdatatest3" class="section level1">
-<h1>predTest &lt;- predict(rf_model,newdata=test3)</h1>
-</div>
-<div id="tablepredtest" class="section level1">
-<h1>table(predTest)</h1>
+<div id="predicting-the-data" class="section level3">
+<h3>Predicting the data</h3>
+<p>Next, we use the model to predict values:</p>
+<pre class="r"><code>predTrain &lt;- predict(rf_model,testing); predAcc &lt;- predTrain==testing$classe
+table(predTrain,testing$classe)</code></pre>
+<pre><code>##          
+## predTrain    A    B    C    D    E
+##         A 1115    4    0    0    0
+##         B    1  754    2    0    0
+##         C    0    1  682    8    0
+##         D    0    0    0  634    1
+##         E    0    0    0    1  720</code></pre>
+<pre class="r"><code>prop.table(table(predAcc))</code></pre>
+<pre><code>## predAcc
+##       FALSE        TRUE 
+## 0.004588325 0.995411675</code></pre>
+<p>As we can see, this model is 99.5% accurate. This is a high degree of accuracy, without overfitting the model (at 100% accuracy). We’ll move on to predict the test set:</p>
+<pre class="r"><code>predTest &lt;- predict(rf_model,newdata=test3)
+table(predTest)</code></pre>
+<pre><code>## predTest
+## A B C D E 
+## 7 8 1 1 3</code></pre>
+<p>The model predicted several different values, as expected.</p>
 </div>
 
 
